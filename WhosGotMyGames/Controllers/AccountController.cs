@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using WhosGotMyGames.Models;
-using WhosGotMyGames.Models.AccountViewModels;
+using WhosGotMyGames.Models.ViewModels.AccountViewModels;
 using WhosGotMyGames.Services;
 
 namespace WhosGotMyGames.Controllers
