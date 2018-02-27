@@ -10,6 +10,8 @@ namespace WhosGotMyGames.unitOfWork.Abstract
     public interface IUnitOfWork
     {
         IGenericRepository<Game> GamesRepository { get; }
+        IGenericRepository<Lending> LendingsRepository { get; }
+        IGenericRepository<Friend> FriendsRepository { get; }
 
         void Complete();
     }
