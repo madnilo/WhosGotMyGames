@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using WhosGotMyGames.Data;
 using WhosGotMyGames.Models;
 using WhosGotMyGames.Services;
+using WhosGotMyGames.unitOfWork.Abstract;
+using WhosGotMyGames.unitOfWork.Concrete;
 
 namespace WhosGotMyGames
 {
@@ -29,18 +31,21 @@ namespace WhosGotMyGames
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddAuthentication().AddGoogle(googleOptions =>
-            {
-                googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
-                googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-            });
+            //services.AddAuthentication().AddGoogle(googleOptions =>
+            //{
+            //    googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+            //    googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            //});
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+
 
             services.AddMvc();
         }

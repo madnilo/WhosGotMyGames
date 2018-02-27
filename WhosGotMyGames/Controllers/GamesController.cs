@@ -8,35 +8,35 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WhosGotMyGames.Data;
 using WhosGotMyGames.Models.Entities;
+using WhosGotMyGames.unitOfWork.Abstract;
 
 namespace WhosGotMyGames.Controllers
 {
     [Authorize]
     public class GamesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private IUnitOfWork _unitOfWork;
 
-        public GamesController(ApplicationDbContext context)
+        public GamesController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: Games
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Game.ToListAsync());
+            return View(_unitOfWork.GamesRepository.GetAll());
         }
 
         // GET: Games/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var game = await _context.Game
-                .SingleOrDefaultAsync(m => m.GameId == id);
+            var game = _unitOfWork.GamesRepository.Get(id.Value);
             if (game == null)
             {
                 return NotFound();
@@ -56,26 +56,26 @@ namespace WhosGotMyGames.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GameId,Name,LaunchDate,CoverUrl")] Game game)
+        public IActionResult Create([Bind("GameId,Name,LaunchDate,CoverUrl")] Game game)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(game);
-                await _context.SaveChangesAsync();
+                _unitOfWork.GamesRepository.Add(game);
+                _unitOfWork.Complete();
                 return RedirectToAction(nameof(Index));
             }
             return View(game);
         }
 
         // GET: Games/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var game = await _context.Game.SingleOrDefaultAsync(m => m.GameId == id);
+            var game = _unitOfWork.GamesRepository.Find(item => item.GameId == id.Value).FirstOrDefault();
             if (game == null)
             {
                 return NotFound();
@@ -88,7 +88,7 @@ namespace WhosGotMyGames.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("GameId,Name,LaunchDate,CoverUrl")] Game game)
+        public IActionResult Edit(int id, [Bind("GameId,Name,LaunchDate,CoverUrl")] Game game)
         {
             if (id != game.GameId)
             {
@@ -99,12 +99,16 @@ namespace WhosGotMyGames.Controllers
             {
                 try
                 {
-                    _context.Update(game);
-                    await _context.SaveChangesAsync();
+                    var g = _unitOfWork.GamesRepository.Get(game.GameId);
+                    g.CoverUrl = game.CoverUrl;
+                    g.LaunchDate = game.LaunchDate;
+                    g.Name = game.Name;
+                    _unitOfWork.GamesRepository.Update(g);
+                    _unitOfWork.Complete();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GameExists(game.GameId))
+                    if (_unitOfWork.GamesRepository.Get(game.GameId) == null)
                     {
                         return NotFound();
                     }
@@ -119,15 +123,14 @@ namespace WhosGotMyGames.Controllers
         }
 
         // GET: Games/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var game = await _context.Game
-                .SingleOrDefaultAsync(m => m.GameId == id);
+            var game = _unitOfWork.GamesRepository.Find(m => m.GameId == id).FirstOrDefault();
             if (game == null)
             {
                 return NotFound();
@@ -139,17 +142,13 @@ namespace WhosGotMyGames.Controllers
         // POST: Games/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var game = await _context.Game.SingleOrDefaultAsync(m => m.GameId == id);
-            _context.Game.Remove(game);
-            await _context.SaveChangesAsync();
+            var game = _unitOfWork.GamesRepository.Get(id);
+            _unitOfWork.GamesRepository.Remove(game);
+            _unitOfWork.Complete();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GameExists(int id)
-        {
-            return _context.Game.Any(e => e.GameId == id);
-        }
     }
 }
