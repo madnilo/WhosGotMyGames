@@ -7,11 +7,11 @@ namespace WhosGotMyGames.Models.Entities
 {
     public class Game
     {
-        public int ID { get; set; }
+        public int GameId { get; set; }
         public string Name { get; set; }
         public DateTime LaunchDate { get; set; }
         public string CoverUrl { get; set; }
-        public int MyProperty { get; set; }
 
+        public List<Lending> Lendings { get; set; }
     }
 }

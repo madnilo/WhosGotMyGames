@@ -11,9 +11,10 @@ using WhosGotMyGames.Data;
 namespace WhosGotMyGames.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180227023805_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,6 +154,8 @@ namespace WhosGotMyGames.Data.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256);
 
+                    b.Property<int>("OwnerID");
+
                     b.Property<string>("PasswordHash");
 
                     b.Property<string>("PhoneNumber");
@@ -181,23 +184,21 @@ namespace WhosGotMyGames.Data.Migrations
 
             modelBuilder.Entity("WhosGotMyGames.Models.Entities.Friend", b =>
                 {
-                    b.Property<int>("FriendId")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<int>("Name");
 
-                    b.Property<int?>("OwnerId");
+                    b.Property<int>("OwnerID");
 
-                    b.HasKey("FriendId");
-
-                    b.HasIndex("OwnerId");
+                    b.HasKey("ID");
 
                     b.ToTable("Friend");
                 });
 
             modelBuilder.Entity("WhosGotMyGames.Models.Entities.Game", b =>
                 {
-                    b.Property<int>("GameId")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("CoverUrl");
@@ -206,57 +207,31 @@ namespace WhosGotMyGames.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int?>("OwnerId");
+                    b.Property<int>("OwnerID");
 
-                    b.HasKey("GameId");
-
-                    b.HasIndex("OwnerId");
+                    b.HasKey("ID");
 
                     b.ToTable("Game");
                 });
 
             modelBuilder.Entity("WhosGotMyGames.Models.Entities.Lending", b =>
                 {
-                    b.Property<int>("LendingId")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("DateBorrowed");
 
                     b.Property<DateTime>("DateReturned");
 
-                    b.Property<int?>("FriendId");
+                    b.Property<int>("FriendID");
 
-                    b.Property<int?>("GameId");
+                    b.Property<int>("GameID");
 
-                    b.Property<int?>("OwnerId");
+                    b.Property<int>("OwnerID");
 
-                    b.HasKey("LendingId");
-
-                    b.HasIndex("FriendId");
-
-                    b.HasIndex("GameId");
-
-                    b.HasIndex("OwnerId");
+                    b.HasKey("ID");
 
                     b.ToTable("Lending");
-                });
-
-            modelBuilder.Entity("WhosGotMyGames.Models.Entities.Owner", b =>
-                {
-                    b.Property<int>("OwnerId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("OwnerId");
-
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
-
-                    b.ToTable("Owner");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -302,42 +277,6 @@ namespace WhosGotMyGames.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("WhosGotMyGames.Models.Entities.Friend", b =>
-                {
-                    b.HasOne("WhosGotMyGames.Models.Entities.Owner")
-                        .WithMany("Friends")
-                        .HasForeignKey("OwnerId");
-                });
-
-            modelBuilder.Entity("WhosGotMyGames.Models.Entities.Game", b =>
-                {
-                    b.HasOne("WhosGotMyGames.Models.Entities.Owner")
-                        .WithMany("Games")
-                        .HasForeignKey("OwnerId");
-                });
-
-            modelBuilder.Entity("WhosGotMyGames.Models.Entities.Lending", b =>
-                {
-                    b.HasOne("WhosGotMyGames.Models.Entities.Friend")
-                        .WithMany("Lendings")
-                        .HasForeignKey("FriendId");
-
-                    b.HasOne("WhosGotMyGames.Models.Entities.Game")
-                        .WithMany("Lendings")
-                        .HasForeignKey("GameId");
-
-                    b.HasOne("WhosGotMyGames.Models.Entities.Owner")
-                        .WithMany("Lendings")
-                        .HasForeignKey("OwnerId");
-                });
-
-            modelBuilder.Entity("WhosGotMyGames.Models.Entities.Owner", b =>
-                {
-                    b.HasOne("WhosGotMyGames.Models.ApplicationUser", "User")
-                        .WithOne("Owner")
-                        .HasForeignKey("WhosGotMyGames.Models.Entities.Owner", "UserId");
                 });
 #pragma warning restore 612, 618
         }

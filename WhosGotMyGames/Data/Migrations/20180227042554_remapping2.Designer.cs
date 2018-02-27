@@ -11,9 +11,10 @@ using WhosGotMyGames.Data;
 namespace WhosGotMyGames.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180227042554_remapping2")]
+    partial class remapping2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -184,7 +185,7 @@ namespace WhosGotMyGames.Data.Migrations
                     b.Property<int>("FriendId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<int>("Name");
 
                     b.Property<int?>("OwnerId");
 

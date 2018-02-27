@@ -11,9 +11,10 @@ using WhosGotMyGames.Data;
 namespace WhosGotMyGames.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180227041557_remapping")]
+    partial class remapping
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -184,7 +185,7 @@ namespace WhosGotMyGames.Data.Migrations
                     b.Property<int>("FriendId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<int>("Name");
 
                     b.Property<int?>("OwnerId");
 
@@ -217,7 +218,7 @@ namespace WhosGotMyGames.Data.Migrations
 
             modelBuilder.Entity("WhosGotMyGames.Models.Entities.Lending", b =>
                 {
-                    b.Property<int>("LendingId")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("DateBorrowed");
@@ -230,7 +231,7 @@ namespace WhosGotMyGames.Data.Migrations
 
                     b.Property<int?>("OwnerId");
 
-                    b.HasKey("LendingId");
+                    b.HasKey("ID");
 
                     b.HasIndex("FriendId");
 

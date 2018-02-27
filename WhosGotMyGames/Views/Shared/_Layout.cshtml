@@ -6,7 +6,7 @@
     <title>@ViewData["Title"] - WhosGotMyGames</title>
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-paper.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
@@ -26,13 +26,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">WhosGotMyGames</a>
+                <a asp-area="" asp-controller="Games" asp-action="Index" class="navbar-brand">WhosGotMyGames</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Friends" asp-action="Index">Meus Amigos</a></li>
+                    <li><a asp-area="" asp-controller="Games" asp-action="Index">Meus Jogos</a></li>
+                    <li><a asp-area="" asp-controller="Lendings" asp-action="Index">Histórico de Empréstimos</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>

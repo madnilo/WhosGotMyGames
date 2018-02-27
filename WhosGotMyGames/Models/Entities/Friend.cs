@@ -7,5 +7,9 @@ namespace WhosGotMyGames.Models.Entities
 {
     public class Friend
     {
+        public int FriendId { get; set; }
+        public string Name { get; set; }
+
+        public List<Lending> Lendings { get; set; }
     }
 }

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<WhosGotMyGames.Models.Entities.Lending>
+
+@{
+    ViewData["Title"] = "Empréstimos";
+}
+
+<h2>Empréstimos</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateBorrowed)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateReturned)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateBorrowed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateReturned)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.LendingId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.LendingId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.LendingId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
