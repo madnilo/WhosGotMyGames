@@ -28,95 +28,94 @@ namespace WhosGotMyGames.Controllers
             return View(_unitOfWork.LendingsRepository.GetAll());
         }
 
-        //// GET: Lendings/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Lendings/Details/5
+        public IActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var lending = await _context.Lending
-        //        .SingleOrDefaultAsync(m => m.LendingId == id);
-        //    if (lending == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var lending = _unitOfWork.LendingsRepository.Get(id.Value);
+            if (lending == null)
+            {
+                return NotFound();
+            }
 
-        //    return View(lending);
-        //}
+            return View(lending);
+        }
 
-        //// GET: Lendings/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
+        // GET: Lendings/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
 
-        //// POST: Lendings/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("LendingId,DateBorrowed,DateReturned")] Lending lending)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(lending);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(lending);
-        //}
+        // POST: Lendings/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create([Bind("LendingId,DateBorrowed,DateReturned")] Lending lending)
+        {
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.LendingsRepository.Add(lending);
+                _unitOfWork.Complete();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(lending);
+        }
 
-        //// GET: Lendings/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Lendings/Edit/5
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var lending = await _context.Lending.SingleOrDefaultAsync(m => m.LendingId == id);
-        //    if (lending == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(lending);
-        //}
+            var lending = _unitOfWork.LendingsRepository.Get(id.Value);
+            if (lending == null)
+            {
+                return NotFound();
+            }
+            return View(lending);
+        }
 
-        //// POST: Lendings/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("LendingId,DateBorrowed,DateReturned")] Lending lending)
-        //{
-        //    if (id != lending.LendingId)
-        //    {
-        //        return NotFound();
-        //    }
+        // POST: Lendings/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, [Bind("LendingId,DateBorrowed,DateReturned")] Lending lending)
+        {
+            if (id != lending.LendingId)
+            {
+                return NotFound();
+            }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(lending);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!LendingExists(lending.LendingId))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(lending);
-        //}
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _unitOfWork.LendingsRepository.Update(lending);
+                    _unitOfWork.Complete();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (_unitOfWork.LendingsRepository.Get(id) == null)
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(lending);
+        }
     }
 }
