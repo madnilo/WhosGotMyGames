@@ -11,9 +11,10 @@ using WhosGotMyGames.Data;
 namespace WhosGotMyGames.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180227225605_remapping4")]
+    partial class remapping4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -147,6 +148,8 @@ namespace WhosGotMyGames.Data.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
+                    b.Property<string>("Name");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
 
@@ -224,7 +227,7 @@ namespace WhosGotMyGames.Data.Migrations
 
                     b.Property<DateTime>("DateBorrowed");
 
-                    b.Property<DateTime?>("DateReturned");
+                    b.Property<DateTime>("DateReturned");
 
                     b.Property<int?>("FriendId");
 
@@ -288,29 +291,29 @@ namespace WhosGotMyGames.Data.Migrations
 
             modelBuilder.Entity("WhosGotMyGames.Models.Entities.Friend", b =>
                 {
-                    b.HasOne("WhosGotMyGames.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("WhosGotMyGames.Models.ApplicationUser")
                         .WithMany("Friends")
                         .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("WhosGotMyGames.Models.Entities.Game", b =>
                 {
-                    b.HasOne("WhosGotMyGames.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("WhosGotMyGames.Models.ApplicationUser")
                         .WithMany("Games")
                         .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("WhosGotMyGames.Models.Entities.Lending", b =>
                 {
-                    b.HasOne("WhosGotMyGames.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("WhosGotMyGames.Models.ApplicationUser")
                         .WithMany("Lendings")
                         .HasForeignKey("ApplicationUserId");
 
-                    b.HasOne("WhosGotMyGames.Models.Entities.Friend", "Friend")
+                    b.HasOne("WhosGotMyGames.Models.Entities.Friend")
                         .WithMany("Lendings")
                         .HasForeignKey("FriendId");
 
-                    b.HasOne("WhosGotMyGames.Models.Entities.Game", "Game")
+                    b.HasOne("WhosGotMyGames.Models.Entities.Game")
                         .WithMany("Lendings")
                         .HasForeignKey("GameId");
                 });

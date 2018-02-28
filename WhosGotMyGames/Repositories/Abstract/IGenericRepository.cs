@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using WhosGotMyGames.Models;
 using WhosGotMyGames.Models.Entities;
 
 namespace WhosGotMyGames.Repositories.Abstract
 {
-    public interface IGenericRepository<TEntity> where TEntity : class
+    public interface IGenericRepository<TEntity>
     {
         TEntity Get(int id);
         IEnumerable<TEntity> GetAll();
@@ -17,5 +18,6 @@ namespace WhosGotMyGames.Repositories.Abstract
         void Update(TEntity entity);
         void Remove(TEntity entit);
         void RemoveRange(IEnumerable<TEntity> entities);
+        ApplicationUser GetLoggedUser(string id);
     }
 }

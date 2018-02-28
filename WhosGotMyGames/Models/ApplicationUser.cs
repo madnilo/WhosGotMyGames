@@ -10,6 +10,9 @@ namespace WhosGotMyGames.Models
     // Add profile data for application users by adding properties to the ApplicationUser class
     public class ApplicationUser : IdentityUser
     {
-        public Owner Owner { get; set; }
+        //relationships
+        public List<Game> Games { get; set; }
+        public List<Friend> Friends { get; set; }
+        public List<Lending> Lendings { get; set; }
     }
 }

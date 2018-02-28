@@ -6,6 +6,7 @@ using WhosGotMyGames.Data;
 using WhosGotMyGames.Models.Entities;
 using WhosGotMyGames.Repositories;
 using WhosGotMyGames.Repositories.Abstract;
+using WhosGotMyGames.Repositories.Concrete;
 using WhosGotMyGames.unitOfWork.Abstract;
 
 namespace WhosGotMyGames.unitOfWork.Concrete
@@ -15,7 +16,7 @@ namespace WhosGotMyGames.unitOfWork.Concrete
         private readonly ApplicationDbContext _context;
 
         public IGenericRepository<Game> _gamesRepository;
-        public IGenericRepository<Lending> _lendingsRepository;
+        public LendingsRepository _lendingsRepository;
         public IGenericRepository<Friend> _friendsRepository;
 
         public UnitOfWork(ApplicationDbContext context)
@@ -30,11 +31,11 @@ namespace WhosGotMyGames.unitOfWork.Concrete
                 return _gamesRepository = _gamesRepository ?? new GenericRepository<Game>(_context);
             }
         }
-        public IGenericRepository<Lending> LendingsRepository
+        public ILendingsRepository LendingsRepository
         {
             get
             {
-                return _lendingsRepository = _lendingsRepository ?? new GenericRepository<Lending>(_context);
+                return _lendingsRepository = _lendingsRepository ?? new LendingsRepository(_context);
             }
         }
         public IGenericRepository<Friend> FriendsRepository

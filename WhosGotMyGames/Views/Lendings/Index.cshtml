@@ -6,34 +6,28 @@
 
 <h2>Empréstimos</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.DateBorrowed)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DateReturned)
-                </th>
-            <th></th>
+            <th>Jogo</th>
+            <th>Amigo</th>
+            <th>Data Empréstimo</th>
+            <th>Data Devolução</th>
+            <th>Opções</th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>@Html.DisplayFor(modelItem => item.Game.Name)</td>
+            <td>@Html.DisplayFor(modelItem => item.Friend.Name)</td>
+            <td>@Html.DisplayFor(modelItem => item.DateBorrowed)</td>
+            <td>@(item.DateReturned.ToString() == "" ? "Ainda não devolvido" : item.DateReturned.ToString())</td>
             <td>
-                @Html.DisplayFor(modelItem => item.DateBorrowed)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateReturned)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.LendingId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.LendingId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.LendingId">Delete</a>
+                @if(item.DateReturned == null)
+                {
+                    @Html.ActionLink("Devolvido","Returned","Lendings",new { lendingId = item.LendingId })
+                }
             </td>
         </tr>
 }

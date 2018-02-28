@@ -17,10 +17,5 @@ namespace WhosGotMyGames.Repositories.Concrete
         {
             _context = context;
         }
-
-        public Game getx()
-        {
-            return _context.Game.FirstOrDefault();
-        }
     }
 }

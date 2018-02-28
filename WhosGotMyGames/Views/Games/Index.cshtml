@@ -7,39 +7,27 @@
 <h2>Jogos</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Adicionar Novo</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LaunchDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CoverUrl)
-                </th>
-            <th></th>
+            <th>Nome</th>
+            <th>Data Lançamento</th>
+            <th>Poster URL</th>
+            <th>Opções</th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+            <td>@Html.DisplayFor(modelItem => item.LaunchDate)</td>
+            <td>@Html.DisplayFor(modelItem => item.CoverUrl)</td>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LaunchDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CoverUrl)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.GameId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.GameId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.GameId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.GameId">Editar</a> |
+                <a asp-action="Create" asp-controller="Lendings">Emprestar Jogo</a> |
+                <a asp-action="Delete" asp-route-id="@item.GameId">Remover</a>
             </td>
         </tr>
 }

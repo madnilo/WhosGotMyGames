@@ -8,6 +8,6 @@ namespace WhosGotMyGames.Repositories.Abstract
 {
     public interface IGamesRepository : IGenericRepository<Game>
     {
-        
+
     }
 }

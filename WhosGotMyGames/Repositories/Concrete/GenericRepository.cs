@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using WhosGotMyGames.Models;
 using WhosGotMyGames.Repositories.Abstract;
 
 namespace WhosGotMyGames.Repositories
@@ -55,6 +56,10 @@ namespace WhosGotMyGames.Repositories
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
             _context.Set<TEntity>().RemoveRange(entities);
+        }
+        public ApplicationUser GetLoggedUser(string id)
+        {
+            return _context.Set<ApplicationUser>().Where(au => au.Id == id).FirstOrDefault();
         }
     }
 }
